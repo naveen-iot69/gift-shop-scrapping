@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Gift Explorer: Connecting You with New England Artisans</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Gift Explorer: Connecting You with New England Artisans</h1>
+            <p>Your next great find is just a click away! Scrape and download the latest data</p>
+        </header>
+        <main>
+            <div class="content-wrapper">
+                <img src="{{ url_for('static', filename='giftshop1.png') }}" alt="Gift Shops" class="shop-image">
+                <a href="/scrape" class="btn-scrape">Download Your Dream List</a>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
