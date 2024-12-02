@@ -5,6 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Gift Explorer: Connecting You with New England Artisans</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Progress bar styles */
+        #loading-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            animation: fade-in 0.3s ease;
+            cursor: pointer; /* Indicate clickability */
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        #progress-bar {
+            width: 25%;
+            background-color: #444;
+            border-radius: 8px;
+            height: 25%;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        #progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #3498db, #5dade2);
+            transition: width 0.2s ease;
+            border-radius: 8px 0 0 8px;
+        }
+
+        #progress-text {
+            margin-top: 15px;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        #loading-header {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Button styles */
+        .btn-scrape {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #3498db;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .btn-scrape:hover {
+            background-color: #5dade2;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -15,9 +93,69 @@
         <main>
             <div class="content-wrapper">
                 <img src="{{ url_for('static', filename='giftshop1.png') }}" alt="Gift Shops" class="shop-image">
-                <a href="/scrape" class="btn-scrape">Download Your Dream List</a>
+                <a href="#" id="btn-scrape" class="btn-scrape">Download Your Dream List</a>
             </div>
         </main>
     </div>
+
+    <!-- Loading progress -->
+    <div id="loading-container">
+        <div id="loading-header"> Scrapping latest data .......</div>
+        <div id="progress-bar">
+            <div id="progress-bar-fill"></div>
+        </div>
+        <p id="progress-text">Click anywhere to cancel</p>
+    </div>
+
+    <script>
+        const btnScrape = document.getElementById('btn-scrape');
+        const loadingContainer = document.getElementById('loading-container');
+        const progressBarFill = document.getElementById('progress-bar-fill');
+        const progressText = document.getElementById('progress-text');
+
+        let progressInterval;
+
+        btnScrape.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent default link behavior
+
+            // Show the loading container
+            loadingContainer.style.display = 'flex';
+
+            window.location.href = "/scrape"; // Redirect to start the download
+
+            // Start download simulation
+            simulateDownload();
+        });
+
+        loadingContainer.addEventListener('click', function () {
+            // Stop the progress simulation
+            clearInterval(progressInterval);
+
+            // Reset UI and provide user feedback
+            progressBarFill.style.width = '0%';
+            setTimeout(() => {
+                loadingContainer.style.display = 'none';
+                progressText.textContent = 'Click anywhere to cancel';
+            }, 2000); // Brief delay to show cancel feedback
+        });
+
+        function simulateDownload() {
+            let progress = 0;
+
+            // Simulate progress based on a timer (replace with real download progress if available)
+            progressInterval = setInterval(() => {
+
+                progress += 5; // Increment progress (adjust based on real data)
+                progressBarFill.style.width = `${progress}%`;
+                progressText.textContent = `Loading... ${progress}%`;
+
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                    progressText.textContent = "Download starting now...";
+
+                }
+            }, 300); // Update every 300ms
+        }
+    </script>
 </body>
 </html>
